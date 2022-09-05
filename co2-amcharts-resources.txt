@@ -1,0 +1,3 @@
+//www.amcharts.com/lib/4/core.js
+//www.amcharts.com/lib/4/charts.js
+//www.amcharts.com/lib/4/themes/animated.js

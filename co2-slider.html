@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+	</head>
+	<body>
+	    <div id="main-container">
+    		<img id="co2-img" width="800px"/>
+    		<div class="slidecontainer" width="400px">
+    			<span id="text-starttime" class="year-text"></span>
+    			<input type="range" min="0" max="0" class="slider" id="co2-slider">
+    			<span id="text-endtime" class="year-text"></span>
+    		</div>
+    	</div>
+		
+		<p class="source-text">Source: climate.nasa.gov</p>
+
+		<style type="text/css">
+		    #main-container {
+		        text-align: center;
+		    }
+		    
+		    .source-text{
+		        margin: 16px;
+		    }
+		    
+		    .year-text {
+		        margin: 16px;
+		        font-weight: bold;
+		        font-size: 16px;
+		    }
+		    
+			.slidecontainer {
+				width: 100%; /* Width of the outside container */
+				text-align: center;
+			}
+
+			/* The slider itself */
+			.slider {
+				-webkit-appearance: none;  /* Override default CSS styles */
+				width: 80%; /* Full-width */
+				height: 15px; /* Specified height */
+				border-radius: 5px;  
+				background: #d3d3d3; /* Grey background */
+				outline: none; /* Remove outline */
+				opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+				-webkit-transition: .2s; /* 0.2 seconds transition on hover */
+				transition: opacity .2s;
+			}
+
+			/* Mouse-over effects */
+			.slider:hover {
+				opacity: 1; /* Fully shown on mouse-over */
+			}
+
+			/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+			.slider::-webkit-slider-thumb {
+				-webkit-appearance: none; /* Override default look */
+				appearance: none;
+				width: 25px; /* Set a specific slider handle width */
+				height: 25px; /* Slider handle height */
+				border-radius: 50%;
+				background: #4CAF50; /* Green background */
+				cursor: pointer; /* Cursor on hover */
+			}
+
+			.slider::-moz-range-thumb {
+				width: 25px; /* Set a specific slider handle width */
+				height: 25px; /* Slider handle height */
+				border-radius: 50%;
+				background: #4CAF50; /* Green background */
+				cursor: pointer; /* Cursor on hover */
+			}
+		</style>
+		
+		<script type="text/javascript">
+			const sourceData = "https://entech369.ektukhanirobotics.com/wp-content/uploads/2020/10/co2_image_srcs.txt";
+			const reg = /http.+?jpg/g;
+			const startTime = '2002';
+			const endTime = '2016';
+
+			var slider = document.getElementById("co2-slider");
+			var imageElement = document.getElementById("co2-img");
+
+			fetch(sourceData)
+			    .then( r => r.text() )
+			    .then( t => {
+			        var match;
+			        var imageArray = [];
+                    while (match = reg.exec(t)) {
+                        imageArray.push(match[0]);
+                    }
+
+			        slider.min = 0;
+			        slider.max = imageArray.length - 1;
+
+			        imageElement.src = imageArray[0];
+
+			        // Update the current slider value (each time you drag the slider handle)
+			        slider.oninput = function() {
+			            imageElement.src = imageArray[this.value];
+			        }
+
+			        var startTimeElement = document.getElementById("text-starttime");
+			        var endTimeElement = document.getElementById("text-endtime");
+
+			        startTimeElement.innerHTML = startTime;
+			        endTimeElement.innerHTML = endTime;
+			    } )
+
+			slider.value = 0
+		</script>
+	</body>
+</html>
